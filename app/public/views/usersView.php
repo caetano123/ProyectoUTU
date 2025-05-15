@@ -27,44 +27,43 @@
 
     <h1>Usuarios</h1>
 
-    <!-- Mostrar todos los usuarios -->
-    <h2>Lista de usuarios</h2>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Email</th>
-        </tr>
-        <?php while ($fila = $usuarios->fetch_assoc()): ?>
-            <tr>
-                <td><?= htmlspecialchars($fila['id']) ?></td>
-                <td><?= htmlspecialchars($fila['nombre']) ?></td>
-                <td><?= htmlspecialchars($fila['email']) ?></td>
-            </tr>
-        <?php endwhile; ?>
-    </table>
-
-    <!-- Buscar usuario por ID -->
+    <!-- Formulario para buscar usuario por ID -->
     <h2>Buscar usuario por ID</h2>
     <form method="GET" action="">
         <input type="number" name="usuario_id" placeholder="Ingrese ID del usuario" required>
         <button type="submit">Buscar</button>
     </form>
 
-    <?php if (isset($usuario)): ?>
-        <h3>Usuario encontrado</h3>
+    <!-- Tabla con todos los usuarios -->
+    <h2>Lista de usuarios</h2>
+    <table>
+        <tr><th>ID</th><th>Nombre</th><th>Email</th></tr>
+        <?php if ($usuarios && $usuarios->num_rows > 0): ?>
+            <?php while ($fila = $usuarios->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($fila['id']) ?></td>
+                    <td><?= htmlspecialchars($fila['nombre']) ?></td>
+                    <td><?= htmlspecialchars($fila['email']) ?></td>
+                </tr>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <tr><td colspan="3">No hay usuarios para mostrar.</td></tr>
+        <?php endif; ?>
+    </table>
+
+    <!-- Tabla con usuario filtrado -->
+    <?php if ($usuarioFiltrado): ?>
+        <h2>Usuario buscado</h2>
         <table>
+            <tr><th>ID</th><th>Nombre</th><th>Email</th></tr>
             <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-            </tr>
-            <tr>
-                <td><?= htmlspecialchars($usuario['id']) ?></td>
-                <td><?= htmlspecialchars($usuario['nombre']) ?></td>
-                <td><?= htmlspecialchars($usuario['email']) ?></td>
+                <td><?= htmlspecialchars($usuarioFiltrado['id']) ?></td>
+                <td><?= htmlspecialchars($usuarioFiltrado['nombre']) ?></td>
+                <td><?= htmlspecialchars($usuarioFiltrado['email']) ?></td>
             </tr>
         </table>
+    <?php elseif (isset($_GET['usuario_id'])): ?>
+        <p>No se encontró ningún usuario con ese ID.</p>
     <?php endif; ?>
 
 </body>

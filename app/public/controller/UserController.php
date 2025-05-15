@@ -12,12 +12,22 @@ class UserController {
     // Mostrar todos los usuarios
     public function showAllUsers() {
         $usuarios = $this->userModel->getAllUsers();  // Obtener todos los usuarios
+        $usuarioFiltrado = null; // No hay búsqueda aún
         require_once __DIR__ . '/../views/usersView.php'; // Incluir la vista
     }
 
-    // Mostrar un usuario por ID
-    public function showUserById($id) {
-        $usuario = $this->userModel->getUserById($id);  // Obtener el usuario por ID
+    // Manejar la búsqueda por ID desde el formulario GET
+    public function searchUserById() {
+        $usuarios = $this->userModel->getAllUsers();  // Obtener todos los usuarios
+        $usuarioFiltrado = null;
+
+        if (isset($_GET['usuario_id']) && is_numeric($_GET['usuario_id'])) {
+            $id = intval($_GET['usuario_id']);
+            $result = $this->userModel->getUserById($id);
+            $usuarioFiltrado = $result ? $result->fetch_assoc() : null;
+        }
+
         require_once __DIR__ . '/../views/usersView.php'; // Incluir la vista
     }
 }
+

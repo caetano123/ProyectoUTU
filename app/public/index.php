@@ -30,10 +30,11 @@ $userModel = new User($mysqli);
 $userController = new UserController($userModel);
 
 // Si se recibe el ID desde el formulario
-if (isset($_GET['usuario_id'])) {
-    $id = $_GET['usuario_id'];
-    $userController->showUserById($id);
+if (isset($_GET['usuario_id']) && is_numeric($_GET['usuario_id'])) {
+    // Pasar el ID por GET dentro del método searchUserById para que lo use
+    $userController->searchUserById();
 } else {
     // Si no se busca un ID, mostrar todos los usuarios
     $userController->showAllUsers();
 }
+
