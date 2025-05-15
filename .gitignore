@@ -1,0 +1,27 @@
+# Composer
+/vendor/
+
+# Entorno
+.env
+
+# Logs
+*.log
+*.log.*
+
+# Docker
+mariadb_data/
+*.pid
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Archivos temporales o de backup
+*~
+*.bak
+*.swp
+
+

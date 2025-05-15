@@ -1,0 +1,38 @@
+services:
+  centos:
+    build: ./centos
+    container_name: centos_console
+    stdin_open: true
+    tty: true
+    volumes:
+      - /var/www/html:/var/www/html
+
+  web:
+    build: ./php
+    container_name: servidor_web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html	
+      - ./apache/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:10.5
+    container_name: base_datos
+    environment:
+      MYSQL_ROOT_PASSWORD: cae2007
+      MYSQL_DATABASE: proyectoUtuBD
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: proyecto2025
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./db-init-scripts:/docker-entrypoint-initdb.d
+
+volumes:
+  mariadb_data:
+
+
